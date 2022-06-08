@@ -5,9 +5,9 @@
 
 <i class='fa fa-circle orb grey-orb'></i>设备处于待机模式（休眠）。
 
-<i class='fa fa-warning orb yellow-orb'></i>设备内容已仿真。
+<i class='fa fa-warning orb yellow-orb'></i>模拟设备内容。
 
-<i class='fa fa-times orb red-orb'></i>设备已禁用，内容已仿真。
+<i class='fa fa-times orb red-orb'></i>设备禁用，模拟内容。
 
 <i class='fa fa-square orb blue-orb'></i>新设备。
 
@@ -22,11 +22,11 @@
 尽管有时这些设备确实报告了有效的温度，
 但有时它们还是返回值 `0`。
 
-**大小, 已用, 可用**报告总设备大小、已用空间和剩余空间。这些
-还可以在 [显示首选项] (Settings/DisplaySettings) 页面上配置单位。
-由于文件系统开销，空磁盘使用的空间量也不会为零。
+**大小, 已用, 可用**报告总设备大小、已用空间和剩余空间。这些模块
+还可以在 [显示首选项] (Settings/DisplaySettings) 页面上配置。
+由于文件系统开销，空白磁盘的使用量也不会为零。
 
-*注意：对于多设备缓存池，此数据是 btrfs 返回的整个池的数据。*
+*注意：对于多设备缓存池，此数据是 btrfs 返回的整个缓存池的数据。*
 
 **读取, 写入**是发送到设备 I/O 驱动程序的 I/O 请求的计数。这些统计数据可以
 随时清除，请参阅下面的阵列状态部分。
@@ -40,8 +40,7 @@
 **查看**列中有一个文件夹图标，表示设备已*挂载*。单击此图标
 浏览文件系统。
 
-如果在 [显示首选项] (Settings/DisplaySettings) 页面开启了 "显示阵列总计"，则
-会包含一行**总计**，其中提供设备统计数据，包括设备的
+如果显示阵列总计在 [显示选项] (设置/显示设置) 页面开启，**总计**这行提供设备统计数据以及设备
 平均温度。
 
 必须停止阵列才能更改阵列设备分配。
@@ -50,8 +49,8 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 磁盘专门用于存储用户数据，奇偶校验磁盘提供必要的冗余
 以从磁盘故障中恢复。
 
-由于数据不跨阵列条带化，因此奇偶校验磁盘必须与最大数据磁盘相同或比它更大。
-奇偶校验磁盘也应当是您性能最高的驱动器。
+由于数据没有跨阵列条带化，奇偶校验磁盘必须与最大的数据磁盘一样大或更大。 
+奇偶校验也应该是您的最高性能驱动器。
 
 每个数据磁盘都有自己的文件系统，并且可以
 作为独立共享导出。
@@ -60,12 +59,12 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 :end
 
 :main_slots_help:
-**插槽**选择服务器中为阵列设备指定的设备插槽数。
+**插槽**在你的服务器中为阵列指定的设备插槽数。
 阵列插槽的最小数量为 2，并且必须至少为该阵列分配一个设备。
 :end
 
 :cache_devices_help:
-**彩色状态指示器**彩色指示器在*池设备*中每行开头的意义如下：
+**彩色状态指示器**彩色指示器在*缓存池设备*中每行开头的意义如下：
 
 <i class='fa fa-circle orb green-orb'></i>正常运行，设备处于可用状态。
 
@@ -75,25 +74,23 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 
 <i class='fa fa-square orb grey-orb'></i>没有设备，位置为空。
 
-**池设备**是单一设备，或多个设备的池，位于 Unraid 阵列的*外部*。可以像阵列设备一样将其导出以进行网络访问。在 Unraid 阵列之外可以显著加快写入访问速度。
+**缓存池**可以是单一设备，或多设备组成的池，在Unraid 阵列*之外*。可以像阵列设备一样将其导出以进行网络访问。在 Unraid 阵列之外可以显著加快写入/访问的速度。
 
 有两种配置池设备的方法：
 
-1. 作为单一设备，或
-2. 作为多设备池。
+1. 单个设备作为缓存池，或
+2. 多个设备作为缓存池。
 
-当配置为单一设备时，您可以使用任何受支持的文件系统（btrfs、reiserfs、
-或 xfs）格式化该设备。此配置可提供最高的性能，但代价是不提供数据保护 -
-如果单一池设备发生故障，其中包含的所有数据都可能会丢失。
+当配置单个设备做缓存池时，你可以使用任何支持的文件系统格式（btrfs、reiserfs、
+或 xfs）来格式化该设备。此配置可提供最高的性能，但代价是不提供数据保护 -
+如果单设备缓存池发生故障，其中包含的所有数据都可能会丢失。
 
-当配置为多设备池时，Unraid OS 将自动选择 *btrfs-raid1* 格式（同时用于数据
+当配置为多设备缓存池时，Unraid OS 将自动选择 *btrfs-raid1* 格式（同时用于数据
 和元数据）。btrfs 允许将任意数量的设备添加到池中，并且保证
 每个数据副本都可以写入两个不同的设备。因此该池可以承受单一磁盘故障，不会丢失数据。
 
-启用［用户共享］(/Settings/ShareSettings) 时，可以将用户共享配置为
-自动使用池设备，以加快写入速度。
-可以计划一个称为 *mover* 的特殊后台进程
-定期运行，以将用户共享文件从缓存移到阵列。
+启用［用户共享］(/设置/共享设置) 时，可以将用户共享配置为自动使用缓存池设备，以加快写入速度。
+称为 *Mover* 的特殊后台进程，可以定期运行，将用户的共享文件从缓存移动到阵列。
 :end
 
 :cache_slots_help:
@@ -101,9 +98,9 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 :end
 
 :boot_device_help:
-重要的阵列配置会保留在 USB 闪存设备上；因此，必须
-保持插入服务器。单击［闪存］(/Main/Flash?name=flash) 以查看 GUID 和
-注册信息，并配置导出设置。由于 USB 闪存设备是使用 FAT 文件系统格式化，
+重要的阵列配置会保留在 USB 闪存设备上；因此，USB 闪存设备必须
+保持插入服务器。单击［Flash］(/zhu/Flash?name=flash) 以查看 GUID 和
+注册信息，并配置导出设置。由于 USB 闪存设备是使用 FAT 文件系统格式，
 因此只能使用 SMB 协议将其导出。
 :end
 
@@ -125,13 +122,11 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 
 一个 unRAID 磁盘阵列由一个奇偶校验磁盘和多个数据磁盘组成。数据磁盘
 专门用于存储用户数据，而奇偶校验磁盘提供必要的冗余，
-以从任何单一磁盘故障中恢复。
+以便从任何单一磁盘故障中恢复。
 
-请注意，在引用阵列存储设备时，我们会慎用*磁盘*一词。
-当引用实际硬盘驱动器 (HDD) 设备时，我们使用*硬盘驱动器*（有时也称为*驱动器*）一词。
-这是因为在 RAID 系统中，可以读取/写入的阵列磁盘的相应
-硬盘驱动器可能已禁用甚至已丢失! 另外，懂得询问 “将哪个设备
-分配为奇偶校验磁盘？” 或 “哪个设备对应于 disk2 ？”都很有用。
+请注意，在提及阵列存储设备时，我们要慎用术语 *disk*。 当指代实际的硬盘驱动器 (HDD) 设备时，我们使用术语 *hard drive*（或有时只是 *drive*）。
+这是因为在 RAID 系统中，可以读取/写入相应硬盘驱动器已禁用甚至丢失的阵列磁盘！ 
+此外，能够询问“哪个设备被分配为奇偶校验盘？”是很有用的； 或者，“哪个设备对应于disk2？”。
 
 因此我们需要一种方法来将硬盘驱动器分配给阵列磁盘。当阵列停止时，
 可以在主页上完成此操作。每个阵列磁盘都有一个下拉框，其中列出了所有
@@ -144,11 +139,11 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 会将文件存储在各个硬盘驱动器上。因此，所有文件写入操作都将涉及
 所写入的数据磁盘和奇偶校验磁盘。鉴于这些原因，
 
-*奇偶校验磁盘的大小必须大于或等于任何数据磁盘的大小，
+*奇偶校验磁盘必须大于或等于任何数据磁盘的大小，
 
 以及
 
-*在可选择的情况下，奇偶校验磁盘应当是集合中速度最快的磁盘。
+*如果可选，奇偶校验磁盘应当是阵列中速度最快的磁盘。
 
 #### 指导方针
 
@@ -209,7 +204,7 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 :end
 
 :info_critical_temp_help:
-*危险磁盘温度*设置此硬盘温度的危险阈值。超过此阈值将导致警报通知。
+*临界磁盘温度*设置此硬盘温度的危险阈值。超过此阈值将导致警报通知。
 
 值为 0 将禁用危险阈值（包括通知）。
 :end
@@ -239,7 +234,8 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 :end
 
 :info_btrfs_balance_help:
-**平衡**将运行 *btrfs balance* 程序以重新条带化所有池设备上的盘区，例如，将池从 raid1 转换为 raid0，或从 raid0 转换为 raid1。
+**Balance** 将运行 *btrfs balance* 程序以重新划分所有池设备的范围，例如，
+将池从 raid1 转换为 raid0 ，反之亦然。
 
 当执行*完全平衡*时，基本上是将所有内容重写到当前文件系统中。
 
@@ -512,54 +508,46 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 :share_edit_allocation_method_help:
 此设置确定在创建新文件或目录时，Unraid OS 如何选择要使用的磁盘：
 
-**High-water**
-选择编号最小且其可用空间仍高于当前 *High Water 标记*的磁盘。
-*High Water 标记*用最大数据磁盘的大小除以 2 初始化。如果
-没有磁盘具有高于当前 *High Water 标记*的可用空间，请将 *High Water 标记*除以 2，然后再次选择。
+**高水位**
+选择剩余空间仍高于当前*高水位线*的最小编号磁盘。 
+*高水位线*初始化为最大容量的数据盘大小除以2。如果没有盘在当前 *高水位线* 以上有可用空间，将 *高水位线* 除以 2 并再次选择。
+例如有Disk1.2.3.4四个盘，磁盘大小分别为16T/14T/12T/10T，初始*高水位线*为16T/2=8T，数据优先往最小编号的Disk1开始写入；Disk2.3.4都不足8T则会优先写入8T/2=4T以上剩余空间的盘，以此类推
 
-**High-water** 的目标是向每个磁盘写入尽可能多的数据（以便最大程度地
+**高水位** 的目标是向每个磁盘写入尽可能多的数据（以便最大程度地
 减少磁盘唤醒的频率），同时尝试在每个磁盘上保留相同数量的
 可用空间（以便在整个阵列上均匀分布数据）。
 
 **填充**
-选择编号最小且可用空间仍高于当前**最小可用空间**设置
-的磁盘。
+选择编号最小且可用空间仍高于当前**最小可用空间**设置的磁盘。
 
 **最多可用**
 选择当前具有最大可用空间的磁盘。
 :end
 
 :share_edit_free_space_help:
-*最小可用空间*可用于写入属于该共享的任何磁盘。<br>
+*最小可用空间*可用于写入属于共享文件夹的任何磁盘。<br>
 
-选择一个等于或大于打算复制到该共享的最大单个文件大小的值。
-包含适当的单位 KB、MB、GB 和 TB，例如 10MB。
+选择一个等于或大于你要复制到该共享文件夹的最大单文件大小的值。
+酌情设置，包含单位 KB、MB、GB 和 TB，例如 10MB。
 :end
 
 :share_edit_split_level_help:
 确定是否允许目录扩展到多个磁盘。
 
 **根据需要自动拆分任何目录**
-当需要在共享中创建新文件或子目录时，Unraid OS 首先根据配置的
-*分配方法*选择应在哪个磁盘上创建共享。如果此磁盘
-上不存在包含新文件或子目录的父目录，Unraid OS 将首先创建所有
-必需的父目录，然后创建新文件或子目录。
+当需要在共享文件夹中创建新文件或子目录时，Unraid OS 首先根据配置的*分配方法*选择应该在哪个磁盘上创建它。 
+如果此磁盘上不存在包含新文件或子目录的父目录，则 Unraid OS 将首先创建所有必要的父目录，然后创建新文件或子目录。
 
 **根据需要仅自动拆分顶级目录**
-当在共享的一级子目录中创建新文件或子目录时，如果正在写入
-的磁盘上不存在该一级子目录，则将首先创建该子目录。
-如果要在共享的二级或更低级别的子目录中创建新文件或子目录，
-将在与新文件或子目录的父目录相同的磁盘上创建新文件或子目录。
+在共享文件夹的第一级子目录中创建新文件或子目录时，如果正在写入的磁盘上不存在该第一级子目录，则将首先创建子目录。
+如果在共享文件夹的第二级或更低级别的子目录中创建新文件或子目录，则在与新文件或子目录的父目录相同的磁盘上创建新文件或子目录。
 
-**根据需要仅自动拆分顶级的 "N" 级目录**
-与之前类似：当创建新文件或子目录时，如果父目录处于 "N" 级，
-并且在所选磁盘上不存在，将首先创建所有必需的父目录。如果新文件
-或子目录的父目录超出级别 "N"，则在存在父目录
-的同一磁盘上创建新文件或子目录。
+**根据需要仅自动拆分前“N”级目录**
+与之前类似：在创建新文件或子目录时，如果父目录在“N”级，并且在所选磁盘上不存在，Unraid OS 将首先创建所有必要的父目录。 
+如果新文件或子目录的父目录超出“N”级，则在父目录所在的同一个磁盘上创建新文件或子目录。
 
 **手动：不自动拆分目录**
-当需要在共享中创建新文件或子目录时，Unraid OS 将仅考虑
-已存在父目录的磁盘。
+当需要在共享文件夹中创建新文件或子目录时，Unraid OS 将仅考虑父目录已存在的磁盘。
 :end
 
 :share_edit_included_disks_help:
@@ -575,22 +563,22 @@ UnRAID 阵列由一个或两个奇偶校验磁盘和多个数据磁盘组成。�
 指定是否可以将共享中写入的新文件和目录写入到缓存磁盘/池中。
 此设置还会影响 *Mover* 行为。
 
-**否**将禁止新文件和子目录写入缓存磁盘/池。
-*Mover* 将不会执行任何操作，因此该共享的所有现有文件都将保留在缓存中。
+**否**禁止将新文件和子目录写入缓存磁盘/缓存池。
+*Mover* 将不会执行任何操作，因此该共享文件夹的所有现文件都将保留在原磁盘位置中，不向缓存盘/缓存池写入。
 
-**是**表示应将所有新文件和子目录写入缓存磁盘/池，前提是
-缓存磁盘/池中存在足够的可用空间。
-如果缓存磁盘/池上没有足够的空间，则会在阵列上创建新的文件和目录。
-当调用 *Mover* 时，文件和子目录会从缓存磁盘/池转移到阵列上。
+**是**表示应将所有新文件和子目录写入缓存磁盘/缓存池，前提是缓存磁盘/缓存池中存在足够的可用空间。
+如果缓存磁盘/缓存池上没有足够的空间，则会在阵列上创建新的文件和目录。
+当*Mover*被调用 时，共享文件夹中的文件和子目录会*从缓存磁盘/缓存池转移到阵列*上。
+例如pt下载的download文件夹可以设置*是*，配合“计划任务”定时从缓存转移到阵列磁盘
 
-**仅于**表示必须将所有新文件和子目录写入高速缓存磁盘/池。
+**只在缓存**表示必须将所有新文件和子目录写入高速缓存磁盘/缓存池。
 如果缓存磁盘/池上的可用空间不足，*创建*操作将失败，并显示*空间不足*状态。
-*Mover* 将不会执行任何操作，因此阵列上此共享的所有现有文件都保留在那里。
+空间不足后，*Mover* 将不会执行任何操作，因此阵列上共享文件夹的所有现文件都保留在原位置。
+例如docker.img和syslib.img，以及appdata文件夹可以考虑只在缓存。
 
-**首选**表示应将所有新文件和子目录写入缓存磁盘/池，前提是
-缓存磁盘/池中存在足够的可用空间。
-如果缓存磁盘/池上的可用空间不足，则会在阵列上创建新的文件和目录。
-当调用 *Mover* 时，文件和子目录从阵列转移到缓存磁盘/池。
+**首选缓存**表示应将所有新文件和子目录写入缓存磁盘/池，前提是缓存磁盘/池中存在足够的可用空间。
+如果缓存磁盘/缓存池上的可用空间不足，则会在阵列上创建新的文件和目录。
+当 *Mover* 被调用时，文件和子目录*从阵列转移到缓存盘/缓存池*。
 
 **注意：**Mover 决不会移动当前正在使用的任何文件。
 这意味着如果要移动与 Docker 或虚拟机等
@@ -2060,247 +2048,245 @@ Docker Registry 上应用程序的存储库。格式为作者名称/应用名称
 
 ; unraid.net help - added March 11, 2021
 :unraidnet_wanpanel_help:
-WAN Port is the external TCP port number setup on your router to NAT/Port Forward traffic from the internet to this
-Unraid server SSL port for secure web traffic.
+WAN 端口是您在路由器上设置的外部 TCP 端口，此端口用于转发外网的流量到这台 Unraid 服务器的 SSL 端口，可以实现更安全的 Web 访问。
 :end
 
 :unraidnet_inactivespanel_help:
-Click Activate to set up a local git repo for your local USB Flash boot device and connect to a dedicated remote on unraid.net tied to this server.
+单击**激活**将为您的U盘设置本地 git 存储库，并连接到 unraid.net 提供的云端备份空间。
 :end
 
 :unraidnet_changespanel_help:
-The Not Up-to-date status indicates there are local files which are changed vs. the remote on unraid.net.
+Not Up-to-date 状态表示您的本地配置文件已被修改，还未同步到 unraid.net 云端。
 
-Click Update to push changes to the remote.
+单击**更新**将本地修改同步到云端。
 
-Click Changes to see what has changed.
+单击**修改**查看本地修改的内容。
 :end
 
 :unraidnet_uptodatepanel_help:
-The Up-to-date status indicates your local configuration matches that stored on the unraid.net remote.
+Up-to-date 状态表示您的本地配置文件已经同步到 unraid.net 云端。
 :end
 
 :unraidnet_activepanel_help:
-Click Deactivate to pause communication with your remote on unraid.net.
+单击 **停用** 将停止与 unraid.net 云端的同步。
 
-Click Reinitialize to erase all change history in both local and unraid.net remote.
+单击 **重新初始化** 会清空本地和 unraid.net 云端上的所有同步记录。
 :end
 
 ; WireGuard help text
 
 :wg_local_name_help:
-Use this field to set a name for this connection and make it easily recognizable. The same name will appear in the configuration of any peers.
+为了便于识别，为本连接设置一个别名。在加入此连接的对端配置里，也会显示同样的别名。
 :end
 
 :wg_generate_keypair_help:
-Use the **Generate Keypair** button to automatically create a uniqe private and public key combination.<br>
-Or paste in an existing private key, generated by WireGuard. Do **NOT** share this private key with others!
+使用**生成密钥对**按钮为对端自动创建一组唯一的私钥和公钥组合。
+或者粘贴 WireGuard 已经生成的私钥。**不要**把私钥告诉他人！
 :end
 
 :wg_local_tunnel_network_pool_help:
-WireGuard tunnels need an internal IP address. Assign a network pool using the default IPv4 network <?=$netpool['wg0']?>/24
-or the default IPv6 network <?=$netpool6['wg0']?>/64 or assign your own network pool from which automatic assignment can be done for both this server and any peers.
+WireGuard 隧道需要一个本地 IP 地址。使用默认的 IPv4 网段<?=$netpool['wg0']?>/24
+或者默认的 IPv6 网段<?=$netpool6['wg0']?>/64，又或者自定义网段，从这个网段的地址池中为本端和任何对端自动分配地址。
 
-The *tunnel network pool* must be a unique network not already existing on the server or any of the peers.
+**隧道地址池**必须独一无二，不能与本地局域网和任何对端局域网产生冲突。
 :end
 
 :wg_local_tunnel_network_pool_X_help:
-WireGuard tunnels need an internal IP address. Assign a network pool using the default IPv4 network <?=$netpool['wgX']?>/24 or
-the default IPv6 network <?=$netpool6['wgX']?>/64 or assign your own network pool from which automatic assignment can be done for both this server and any peers.
+WireGuard 隧道需要一个本地 IP 地址。使用默认的 IPv4 网段<?=$netpool['wgX']?>/24
+或者默认的 IPv6 网段<?=$netpool6['wgX']?>/64，又或者自定义网段，从这个网段的地址池中为本端和任何对端自动分配地址。
 
-The *tunnel network pool* must be a unique network not already existing on the server or any of the peers.
+**隧道地址池**必须独一无二，不能与本地局域网和任何对端局域网产生冲突。
 :end
 
 :wg_local_tunnel_address_help:
-This field is auto filled-in when a local tunnel network pool is created. It is allowed to overwrite the assignment, but this is normally not necessary. Use with care when changing manually.
-:end
-
-:wg_local_tunnel_address_help:
-This field is auto filled-in when a local tunnel network pool is created. It is allowed to overwrite the assignment, but this is normally not necessary. Use with care when changing manually.
+该选项会在创建本地隧道网段时自动填写。可以覆盖自动填写的值，但一般默认即可。手动填写需谨慎。
 :end
 
 :wg_local_endpoint_help:
-This field is automatically filled in with the public management domain name *www.&lt;hash&gt;.unraid.net* or the public address of the server.<br>
-This allows VPN tunnels to be established from external peers to the server.<br>
-Configure the correct port forwarding on your router (default port is <?=$netport['wg0']?> but this may be changed) to allow any incoming connections to reach the server.
+该选项自动填写 Unraid 内置的远程访问管理域名（6.10+）*www.<hash>.unraid.net*或者服务器的公网地址。<br>
+这样可以建立由外网对端到服务器的 VPN 隧道。<br>
+为了能让外部请求连接到服务器，需要在路由器上配置正确的端口转发（默认端口是 <?=$netport['wg0']?> 但可能会改变）。
 
-Users with a registered domain name can use this field to specify how their server is known on the Internet. E.g. www.myserver.mydomain.<br>
-Again make sure your router is properly set up.
+可以填写自己购买的域名。 例如。 www.myserver.mydomain.<br>
+再次检查路由器设置正确。
 
-Note to Cloudflare users: the Cloudflare proxy is designed for http traffic, it is not able to proxy VPN traffic. You must disable the Cloudflare proxy in order to use VPN with your domain.
+Cloudflare用户需要注意：Cloudflare 的代理专为 http 流量设计，无法代理 VPN 流量。
+若要通过 Cloudflare 域名使用 VPN，必须禁用 Cloudflare 代理。
 :end
 
 :wg_local_endpoint_X_help:
-This field is automatically filled in with the public management domain name *www.&lt;hash&gt;.unraid.net* or the public address of the server.<br>
-This allows VPN tunnels to be established from external peers to the server.<br>
-Configure the correct port forwarding on your router (default port is <?=$netport['wgX']?> but this may be changed) to allow any incoming connections to reach the server.
+该选项自动填写 Unraid 内置的远程访问管理域名（6.10+）*www.<hash>.unraid.net*或者服务器的公网地址。<br>
+这样可以建立由外网对端到服务器的 VPN 隧道。<br>
+为了能让外部请求连接到服务器，需要在路由器上配置正确的端口转发（默认端口是 <?=$netport['wgX']?> 但可能会改变）。
 
-Users with a registered domain name can use this field to specify how their server is known on the Internet. E.g. www.myserver.mydomain.<br>
-Again make sure your router is properly set up.
+可以填写自己购买的域名。 例如。 www.myserver.mydomain.<br>
+再次检查路由器设置正确。
 
-Note to Cloudflare users: the Cloudflare proxy is designed for http traffic, it is not able to proxy VPN traffic. You must disable the Cloudflare proxy in order to use VPN with your domain.
+Cloudflare 用户需要注意：Cloudflare 的代理专为 http 流量设计，无法代理 VPN 流量。
+若要通过 Cloudflare 域名使用 VPN，必须禁用 Cloudflare 代理。
 :end
 
 :wg_local_server_uses_nat_help:
-When NAT is enabled, the server uses its own LAN address when forwarding traffic from the tunnel to other devices in the LAN network.
-Use this setting when no router modifications are desired, but this approach doesn't work with Docker containers using custom IP addressess.
+启用 NAT 后，服务器在将流量从隧道转发到 LAN 网络中的其他设备时使用自己的 LAN 地址。
+当不需要修改路由器时使用该设置，但是此方法不适用于使用自定义 IP 地址的 Docker 容器。
 
-When NAT is disabled, the server uses the WireGuard tunnel address when forwarding traffic.
-In this case it is required that the default gateway (router) has a static route configured to refer tunnel address back to the server.
+禁用 NAT 时，服务器使用 WireGuard 隧道地址转发流量。
+这种情况下，需要默认网关（路由器）具有静态路由，该静态路由的配置是将隧道地址返回给服务器。
 :end
 
 :wg_local_gateway_uses_upnp_help:
-Defaults to YES if the local gateway has UPnP enabled and is responding to requests.<br>
-When UPnP is enabled, it is not necessary to configure port forwarding on the router to allow incoming tunnel connections. This is done automatically.
+如果本地网关启用了 UPnP，并且有响应，则该选项默认为 YES。<br>
+启用 UPnP 后，端口转发会自动完成，无需手动操作。
 :end
 
 :wg_local_tunnel_firewall_help:
-The firewall function controls remote access over the WireGuard tunnel to specific hosts and/or subnets.<br>
-The default rule is "deny" and blocks addresses specified in this field, while allowing all others.<br>
-Changing the rule to "allow" inverts the selection, meaning only the specified addresses are allowed and all others are blocked.<br>
-Use a comma as separator when more than one IP address is entered.
+防火墙可以控制通过 WireGuard 隧道对特定主机和/或子网的远程访问。<br>
+默认规则是“拒绝”，并且阻止该选项指定的地址，允许所有其他地址。<br>
+将规则改为“允许”即为反选，允许该选项指定的地址，阻止所有其他地址。<br>
+输入多个 IP 地址时，使用逗号作为分隔符。
 :end
 
 :wg_mtu_size_help:
-Leave this to the default automatic mode to select the MTU size. This MTU size is common for all peer connections.
+此选项若留空，则使用自动模式，自动选择 MTU 大小。所有连接都使用该 MTU 值。
 :end
 
 :wg_peer_configuration_help:
-The <i class='fa fa-fw fa-eye'></i> icon is used to view a peer's configuration. A configuration can be downloaded or read directly for instant set up of the peer.<br>
-The icon is disabled when no peer configuration exists or the user has made changes to the existing settings which are not applied yet.
+<i class='fa fa-fw fa-eye'></i> 图标用来查看对端的配置。 该配置可以直接被读取或直接下载（或扫码）来即时设置对端。<br>
+若对端配置不存在，或者当前的配置已经被修改但还未保存，那么该图标不可用。
 
-The <i class='fa fa-fw fa-key'></i> icon is used to show or hide the private, public and preshared keys. Note that these fields are always shown when no keys are set.
+<i class='fa fa-fw fa-key'></i> 图标用来显示或隐藏私钥、公钥和预共享密钥。 注意，若未设置任何密钥，这些选项将始终显示。
 :end
 
 :wg_peer_name_help:
-Use this field to set a name for this peer connection and make it easily recognizable. The same name will appear in the configuration of the peer at the opposite side.
+为了便于识别，为本连接设置一个名字。在加入此连接的对端配置里，也会显示同样的名字。
 :end
 
 :wg_peer_preshared_key_help:
-For added security a preshared key can be used. Use the **Generate Key** button to automatically create a unique preshared key.<br>
-This key is the same at both server and peer side and is added to the peer configuration as well.
+为了更加安全，可以使用预共享密钥。 使用 **Generate Key** 按钮自动创建唯一的预共享密钥。<br>
+此密钥在服务器端和对端都相同，并且也会添加到对端的配置里。
 :end
 
 :wg_peer_tunnel_address_help:
-This field is auto filled-in when a local tunnel network pool is created. It is allowed to overwrite the assignment, but this is normally not necessary. Use with care when changing manually.<br>
-Each peer must have a unique tunnel IP address.
+该选项会在创建本地隧道网段时自动填写。可以覆盖自动填写的值，但一般默认即可。手动填写需谨慎。<br>
+每个对端都必须有一个唯一的隧道 IP 地址。
 :end
 
 :wg_peer_endpoint_help:
-When this field is left empty, the server operates in *passive mode* to establish the tunnel. It must be the peer which starts the tunnel.
+当该选项为空时，服务器使用*被动模式*来建立隧道。 且必须是由对端来启动隧道。
 
-When an IP address is entered to connect to the peer, the server operates in *active mode* and establishes the tunnel to the peer as soon as there is data to send.
+当输入 IP 地址来连接到对端时，服务器使用 *主动模式* 运行，在有数据需要发送的时候，立即建立到对端的隧道。
 
-*Note: this field is mandatory for "server-to-server" and "LAN-to-LAN" connections*
+*注意：对于“服务器到服务器”和“局域网到局域网”连接，该选项是必填的*
 :end
 
 :wg_peer_allowed_ips_help:
-This field is automatically filled in with the tunnel address of the peer. This allows the server to reach the peer over the tunnel.<br>
-When the peer is another server or router with additional networks, then their subnets can be added here to make these networks reachable over the tunnel.
+该选项自动填写对端的隧道地址。 这可以使服务器通过隧道连接到对端。<br>
+若对端是具有其他网络的另一台服务器或路由器，可以在此处添加它们的子网，以此来通过隧道访问这些网络。
 :end
 
 :wg_peer_dns_server_help:
-Use this entry to overwrite the current DNS server assignment of the Peer
+填写该选项可以覆盖对端当前的 DNS 服务器地址。
 :end
 
 :wg_persistent_keepalive_help:
-By default a WireGuard tunnel stays silent when no traffic is present, which may cause the connection to drop.
-Normally this isn't a problem since a WireGuard tunnel is automatically re-established when it is needed.<br>
-A keepalive timer will hold the connection open, for most situations a timer value of 20 seconds is suitable.
+默认情况下，在没有流量时，WireGuard 隧道会停止活动，但是这可能会导致连接断开。
+这不是问题，因为在需要连接时 WireGuard 隧道会自动重新建立。<br>
+而 keepalive 选项可以设置连接持续打开的时间，大部分情况下，20 秒是比较合适的。
 
-Note that for mobile devices this will use more data and drain your battery faster.
+注意，对于手机等移动设备来说，使用该选项会使用更多数据并且更耗电。
 :end
 
 ; New entries (5) - 2021-09-18
 
 :info_share_assignment_help:
-The selected pool is available for user shares.
+选中的缓存池可用于用户共享。
 :end
 
 :docker_timeout_help:
-The time in seconds to allow a container to gracefully stop before forcing it to stop
+等待容器正常停止的时间，超时后会强制停止。（以秒为单位）
 :end
 
 :docker_vdisk_type_help:
-Select where to keep the Docker persistent state.
+选择保存 Docker 状态持久化的路径。
 
-This can be an image file with a specific size or a dedicated folder.
+这可以是具有特定大小的镜像文件或一个专用文件夹。
 :end
 
 :docker_vdisk_directory_help:
-You must specify a folder for Docker. The system will automatically create this folder when the Docker service is first started.
+您必须为 Docker 指定一个文件夹（路径）。首次启动 Docker 服务时系统会自动创建该文件夹。
 
-It is recommended to create this folder under a share which resides on the Cache pool (setting: cache=Only). For best performance SSD devices are preferred.
+建议在缓存池中的共享目录下创建此文件夹（设置：缓存=只在缓存）。为了获得最佳体验，SSD 是首选。
 :end
 
 :docker_client_additional_requirements_help:
-Any additional requirements the container has.  Supports basic HTML mark-up.
+容器需要的任何额外条件。支持基本的 HTML 标记。
 :end
 
 ; New entries (1) - 2021-11-07
 
 :docker_client_readme_help:
-Link to a readme file or page
+链接到一个 readme 文件或者页面
 :end
 
 ; New entries (3) - 2021-12-16
 
 :parity_cumulative_check_help:
-Change this setting to **Yes** to divide long duration parity checks over multiple periods. This is useful the system needs to be available and a parity check runs only during off hours.
+将此设置修改为 **是** 可以将长时间的数据校验分为多段完成。这在系统需要可用并且数据校验仅在非工作时间运行时很有用。
 :end
 
 :parity_accumulation_frequency_help:
-Specifies how accumulation periods are executed.
+指定数据校验执行频次
 
-**Daily** means every subsequent day the parity check continuous until finished
+**每天**表示每天都执行校验并直到完成 
 
-**Weekly** means every subsequent week the parity check continuous until finished
+**每周**表示每周执行一次校验并直到完成
 :end
 
 :parity_accumulation_duration_help:
-Specifies how long each accumulated period runs, expressed in hours. The **Time of the day** speficies the start time of the period.
+指定每个校验分段的运行时长，以小时为单位。 **一天中的时间** 指定时段的开始时间。
 :end
 
 ; New entries (7) - 2022-02-19
 
 :display_tty_size_help:
-Changes the font size of terminal windows.
+修改web终端的字体大小。
 :end
 
 :display_page_view_help:
-Changes how certain pages are displayed. In **Tabbed** mode different sections will be displayed in different tabs,
-while in **Non-tabbed** mode sections are displayed under each other.
+修改某些页面的显示方式。在 **页签** 模式下，不同的部分将显示在不同的选项卡中，
+而在 **非页签** 模式下，内容则从上到下罗列。
 :end
 
 :display_users_menu_help:
-The Users Menu can be part of the header or part of the Settings menu.
-You can move the Users Menu if insufficient space in the header is available to display all menus.
+用户菜单可以是页头的一部分，也可以是 设置 的一部分。
+如果页头宽度不够显示所有菜单，您可以移动用户菜单。
 :end
 
 :display_listing_height_help:
-**Automatic** : long listings are displayed as is, and the user needs to scroll the whole page to see the bottom
+**自动** : 长列表按原样显示, 用户需要滚动整个页面才能看到底部 
 
-**Fixed** : long listings are displayed in a window with a fixed size, user can scroll this window to see the bottom
+**固定** : 长列表显示在一个固定大小的视窗中, 用户可以滚动这个视窗到底部
 :end
 
 :unraidnet_extraorigins_help:
-Provide a comma separated list of urls that are allowed to access the unraid-api (https://abc.myreverseproxy.com,https://xyz.rvrsprx.com,…)
+指定允许访问 unraid-api 的链接 ，以英文逗号分隔
+（https://abc.myreverseproxy.com,https://xyz.rvrsprx.com,...）
 :end
 
 :myservers_remote_t2fa_help:
-When Transparent 2FA for Remote Access is enabled, you will access your server by clicking the "Remote Access" link on the <a href="https://forums.unraid.net/my-servers/" target="_blank" rel="noopener noreferrer">My Servers dashboard</a>. The system will transparently request a 2FA token from your server and embed it in the server's login form. Your server will deny any Remote Access login attempt that does not include a valid token. Each token can be used only once, and is only valid for five minutes.
+启用远程访问的两步验证后，您将通过单击 <a href="https://forums.unraid.net/my-servers/" target="_blank"  rel="noopener noreferrer">我的服务器仪表板</a>访问。系统将从您的服务器请求两步验证令牌并将其嵌入服务器的登录表单中。您的服务器将拒绝任何不包含有效令牌的远程访问。每个令牌只能使用一次，有效期五分钟。
 :end
 
 :myservers_local_t2fa_help:
-When Transparent 2FA for Local Access is enabled, you will access your server by clicking the "Local Access" link on the <a href="https://forums.unraid.net/my-servers/" target="_blank" rel="noopener noreferrer">My Servers dashboard</a>. The system will transparently request a 2FA token from your server and embed it in the server's login form. Your server will deny any Local Access login attempt that does not include a valid token. Each token can be used only once, and is only valid for five minutes.
+启用两步验证后，您将通过单击 <a href="https://forums.unraid.net/my-servers/" target="_blank" rel="noopener noreferrer">我的服务器仪表板</a>访问 web 管理端。系统将从您的服务器请求两步验证令牌并将其嵌入服务器的登录表单中。您的服务器将拒绝任何不包含有效令牌的访问。每个令牌只能使用一次，有效期五分钟。
 
-This is fairly extreme for Local Access, and in most cases is not needed. It requires a solid Internet connection. If you need to access the webgui while the Internet is down, SSH to the server and run 'use_ssl no', this will give you access via http://<?=['NGINX_LANIP']?><?=['NGINX_PORT'] !== '80' ? ':'.['NGINX_PORT'] : '' ?>
+这对于本地访问来说是有影响的，开启远程访问后在大多数情况下是不需要用本地访问。远程访问需要可靠的外网网络状态。如果您需要在没有外网时访问web管理端，请通过 SSH 连接到服务器并执行“use_ssl no”，这将使您可以通过 http://<?=['NGINX_LANIP']?><?=['NGINX_PORT'] !== '80' ? ':'.['NGINX_PORT'] : '' ?>访问
 :end
 
 ; New entries (1) - 2022-05-07
 
 :smb_multi_channel_help:
-When set to 'Yes' enables SMB Multi Channel support in the server. From
-[microsoft](https://docs.microsoft.com/en-us/azure-stack/hci/manage/manage-smb-multichannel):
-"SMB Multichannel enables file servers to use multiple network connections simultaneously." 
+当设置为“是”时，在服务器中启用 SMB 多通道支持。从
+微软说明文档https://docs.microsoft.com/en-us/azure-stack/hci/manage/manage-smb-multichannel可知
+“SMB 多通道使文件服务器能够同时使用多个网络连接。”
 :end
