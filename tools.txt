@@ -353,6 +353,12 @@ USB 闪存设备也可能被**列入黑名单**。
 :end
 ; 20250427 Unraid7.3翻译增加部分
 Docker Safe New Perms=Docker 安全权限修复
-Wizards=设置向导
-Onboarding=初始设置向导
+Onboarding=入门向导
+Setup Wizard=设置向导
+Launch onboarding to customize your server and set up an internal boot drive.=启动入门向导，自定义你的服务器并设置内置启动设备。
+Available while the array is stopped.=仅在阵列停止时可用。
+Open Wizard=打开向导
 Internal Boot=内置启动
+Configure an internal boot device without opening the full onboarding wizard.=无需打开完整入门向导，即可配置内置启动设备。
+Array must be stopped to configure internal boot.=必须先停止阵列，才能配置内置启动。
+Array must be stopped to open onboarding.=必须先停止阵列，才能打开入门向导。
