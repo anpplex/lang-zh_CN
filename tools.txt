@@ -351,3 +351,12 @@ USB 闪存设备也可能被**列入黑名单**。
 
 如需了解更多信息，请[联系支持人员](https://lime-technology.com/contact)。
 :end
+#20250427 Unraid7.3翻译增加部分
+Docker Safe New Perms=Docker 安全权限修复
+Wizards=设置向导
+Onboarding=初始设置向导
+Internal Boot=内置启动
+Setup Wizard=设置向导
+Launch onboarding to customize your server and set up an internal boot drive.=启动初始设置向导，自定义你的服务器并设置内置启动盘。
+Array must be stopped to configure internal boot.=必须先停止阵列，才能配置内置启动。
+Configure an internal boot device without opening the full onboarding wizard.=无需打开初始设置向导，即可配置内置启动设备。
