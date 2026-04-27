@@ -1274,6 +1274,6 @@ Remove from favorites=从收藏中移除
 ; Wizards 20250427 Unraid7.3翻译增加部分
 
 Setup Wizard=设置向导
-Launch onboarding to customize your server and set up an internal boot drive.=启动初始设置向导，自定义你的服务器并设置内置启动盘。
-Array must be stopped to configure internal boot.=必须先停止阵列，才能配置内置启动。
-Configure an internal boot device without opening the full onboarding wizard.=无需打开初始设置向导，即可配置内置启动设备。
+Launch onboarding to customize your server and set up an internal boot drive=启动初始设置向导，自定义你的服务器并设置内置启动盘。
+Array must be stopped to configure internal boot=必须先停止阵列，才能配置内置启动。
+Configure an internal boot device without opening the full onboarding wizard=无需打开初始设置向导，即可配置内置启动设备。
